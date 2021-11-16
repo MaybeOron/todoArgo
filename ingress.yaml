@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: echo-ingress
+  namespace: prod
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt
+  labels:
+    name: echo-ingress
+spec:
+  tls:
+  - hosts:
+    - prod.oronargo.tk
+    secretName: echo-secret-tls-sec-cqx7l
+    #secretName: echo-secret-tls-sec
+    #secretName: echo-secret-tls-q8ths
+  rules:
+  - host: prod.oronargo.tk
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: echo-prod-ip
+            port: 
+              number: 80
